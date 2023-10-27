@@ -11,7 +11,7 @@ from amo.ktilde import ktilde
 from amo.tail import tail
 from amo.correction import recoilBroad
 
-def calc(a, c, istep, corr):
+def calc(a, c, istep, corr, fname):
         
     print("Calculation starts.")
     print("")
@@ -49,12 +49,12 @@ def calc(a, c, istep, corr):
     
     header = ["Energy [eV]", "Prob. Density [eV^-1]", "Frac. Rec. Mom. [a_0^(-1)]"]    
     
-    if corr == "Yes":
+    if corr:
         dfResult = recoilBroad()
         dfResult.columns = ['Energy [eV]', 'Prob. Dist. [eV^-1]', 'Frac. Rec. Mom. [a_0^-1]']
-        dfResult.to_csv("out/" + 'tail_fsd' + "_" + sys.argv[1] + "_" + sys.argv[2] + "_s" + sys.argv[3] + ".txt", sep="\t", index=False, header=header)
+        dfResult.to_csv(f"out/{fname}.fsd", sep="\t", index=False, header=header)
         print("")
-        print("Results have been written into tail_fsd"+ "_" + sys.argv[1] + "_" + sys.argv[2] + "_s" + sys.argv[3]  + ".txt file.")
+        print(f"Results have been written into {fname}.fsd file.")
         print("")
         print(dfResult)
         print("")
@@ -63,9 +63,10 @@ def calc(a, c, istep, corr):
     else:
         dfResult = pd.read_csv("transition" + '.txt', sep='\\s+', header=None)
         dfResult.columns = ['Energy [eV]', 'Prob. Dist. [eV^-1]', 'Frac. Rec. Mom. [a_0^-1]']
-        dfResult.to_csv("out/" + 'tail_fsd'+ "_" + sys.argv[1] + "_" + sys.argv[2] + "_s" + sys.argv[3] + "_corrNO" + '.txt', sep="\t", index=False, header=header)
+        #dfResult.to_csv("out/" + 'tail_fsd'+ "_" + sys.argv[1] + "_" + sys.argv[2] + "_s" + sys.argv[3] + "_corrNO" + '.txt', sep="\t", index=False, header=header)
+        dfResult.to_csv(f"out/{fname}_corrNO.fsd", sep="\t", index=False, header=header)
         print("")
-        print("Results have been written into tail_fsd"+ "_" + sys.argv[1] + "_" + sys.argv[2] + "_s" + sys.argv[3] + "_corrNO" + ".txt file.")
+        print(f"Results have been written into {fname}_corrNO.fsd file.")
         print("")        
         print(" ")
         print("Fractional recoil momentum shift is NOT applied!")
