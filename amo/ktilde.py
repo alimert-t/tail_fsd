@@ -1,3 +1,13 @@
+"""
+
+ktilde.py 
+
+ktilde function calculates the fractional recoil momentum.
+
+The function ktilde takes one argument, it is the energy to be calculated
+for fractional recoil momentum.
+
+"""
 import sys
 import math
 

@@ -58,7 +58,8 @@ def main():
     print('           *****************************')
     print(' ')
     print(' ')
-    
+
+    # Taking arguments to be executed.
     parser = argparse.ArgumentParser(
         description='Calculates the atomic tail final state distribuiton.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -77,11 +78,14 @@ def main():
     end_energy = args.energy_end
     num_steps = args.energy_step
 
-    # Now, use these variables in your file name
+    # Generating the file name
     file_name = f"tail_fsd-{start_energy}_{end_energy}_i{num_steps}"
 
+    # Sending the arguments to calculation script
     should_apply_correction = args.correction
     calc(args.energy_start, args.energy_end, args.energy_step, should_apply_correction, file_name)
     
 if __name__ == "__main__":
     main()
+
+#   END OF CODE

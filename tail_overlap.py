@@ -15,6 +15,8 @@ Use -h flag for help about using the program.
 
 """
 
+#   START OF CODE
+
 import sys
 import os
 import argparse
@@ -119,4 +121,4 @@ if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
 else:
     print(f"    ***Error: Tail overlap {file_name} was not created or is empty. Please check for issues. \n")
 
-# tail_fsd.py, code is complete
+#   END OF CODE
