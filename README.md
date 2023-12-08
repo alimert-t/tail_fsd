@@ -10,7 +10,7 @@ The code takes four arguments:
 
 1. Parent molecule (T2, HT or DT)
 2. Starting point of the atomic tail (eV)
-    Important Note: Please do NOT use this code for starting energies below 100 eV. Below 100 eV, close (and below) to ionization threshold energy, the tail model is NOT a physically sensible model. This model / package only makes sense for calculations with higher starting energy. For energies below 100 eV, please use other programs.
+    *Important Note*: Please do NOT use this code for starting energies below 100 eV. Below 100 eV, close (and below) to ionization threshold energy, the tail model is NOT a physically sensible model. This model / package only makes sense for calculations with higher starting energy. For energies below 100 eV, please use other programs.
 3. End point of the atomic tail (eV)
 4. Bin widths
     The package provides a binned FSD, with a given bin width.
