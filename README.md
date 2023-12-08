@@ -1,4 +1,4 @@
-# Tail Ktilde 
+# TAIL_FSD 
 
 The 'tail_fsd' package is a Python package that calculates the atomic tail for beta decay of TS (where S is T, H or D) within sudden approximation using the result in Fukugita+Kubodera, Z.Phys.9,365(1981) adapted to the molecular case by considering the different ionization energies and a prefactor of 2.0 (for the two electrons). 'tail_fsd.py' code initiates the execution script "exe.py" which then runs the neccesary Python modules inside 'taillib'.
 
@@ -9,12 +9,12 @@ The 'tail_fsd' package is a Python package that calculates the atomic tail for b
 The code takes four arguments:
 
 1. Parent molecule (T2, HT or DT)
-2. Starting point of the atomic tail (eV)
+2. Starting point of the atomic tail (eV):
     *Important Note*: Please do NOT use this code for starting energies below 100 eV. Below 100 eV, close (and below) to ionization threshold energy, the tail model is NOT a physically sensible model. This model / package only makes sense for calculations with higher starting energy. For energies below 100 eV, please use other programs.
 3. End point of the atomic tail (eV)
-4. Bin widths
+4. Bin widths:
     The package provides a binned FSD, with a given bin width.
-5. Correction
+5. Correction:
     The correction flag is by default False, which means that the program APPLIES the energy shift / nuclear broadening by default. It is reccomended to just skip this flag, and use as is.
 
 #### Example usage:
