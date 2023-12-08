@@ -40,6 +40,12 @@ The code takes two arguments:
 4. The constant R point to use for R-independent calculations. This flag is only neccesary if the flag above is given.
 5. File name, extension is set to ".snm" by default.
 
+#### Example Usage:
+
+$python tail_overlap.py -p t2st001Doss.txt -d HeTpst001Mert.pot -n HeTpst001Mert
+
+$python tail_overlap.py -p t2st001Doss.txt -d HeTpst001Mert.pot -n HeTpst001Mert -r -v 1.431
+
 ### Output
 
 Output is in the format of other AMO group overlap files (hence the .snm extension). Mainly, in contains two columns:
