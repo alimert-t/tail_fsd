@@ -27,9 +27,10 @@ import sys
 import os
 import argparse
 import numpy as np
-sys.path.append('./amo')
+sys.path.append('./taillib')
 from exe import calc
-from amo import overlap
+from taillib import overlap
+from taillib import interpolate
 
 # Taking and parsing arguments
 parser = argparse.ArgumentParser(
@@ -59,12 +60,38 @@ if os.path.exists(file_path):
         print("     quitting...")
         sys.exit()
 
-if args.r_independent and args.r_value is None:
-    parser.error("--r-independent requires --r-value!")
+daughter_data_raw = np.genfromtxt('input/' + args.daughter_potential_file)
+parent_data_raw = np.genfromtxt('input/' + args.parent_potential_file)
 
-# Load the interpolated potential data
-daughter_data = np.genfromtxt('input/' + args.daughter_potential_file)
-parent_data = np.genfromtxt('input/' + args.parent_potential_file)
+if len(daughter_data_raw) != len(parent_data_raw):
+    if len(daughter_data_raw) < len(parent_data_raw):
+        ref_data = daughter_data_raw
+        target_data = parent_data_raw
+        file_to_save = 'daughter_interpolated.pot'
+    else:
+        ref_data = parent_data_raw
+        target_data = daughter_data_raw
+        file_to_save = 'parent_interpolated.pot'
+
+    interpolated_data, truncated_data = interpolate.spline(daughter_data_raw, parent_data_raw)
+    np.savetxt('out/' + file_to_save, interpolated_data, fmt='%f', delimiter='\t')
+
+    if len(daughter_data_raw) < len(parent_data_raw):
+        daughter_data = interpolated_data
+        parent_data = truncated_data
+        print("")
+        print("     Daughter potential curve has been interpolated with respect to parent potential curve.")
+        print(f"     Interpolated daughter data has been saved to /out/{file_to_save}. \n")
+    else:
+        parent_data = interpolated_data
+        print("")
+        print("     Parent potential curve has been interpolated with respect to daughter potential curve.")
+        print(f"     Interpolated parent data has been saved to /out/{file_to_save}. \n")
+        daughter_data = interpolated_data
+
+else:
+    daughter_data = daughter_data_raw
+    parent_data = parent_data_raw
 
 # Calculate the absolute potential differences for both cases of R dependence
 pot_diff = np.abs(daughter_data[:, 1] - parent_data[:, 1])
