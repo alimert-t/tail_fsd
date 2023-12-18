@@ -6,13 +6,6 @@ def tail(eprime, ethrsd, enueb, enstep):
     ehinev = 27.2113962
     pi = math.acos(-1)
     
-    #eprime = enueb - ethrsd
-
-    #if eprime == 0:
-    #    eprime = 1.0e-12
-    #elif eprime < 0:
-    #    eprime = 0.1e-12
-
     rydueb = 2 * eprime
     dnu = math.sqrt(rydueb)
 
