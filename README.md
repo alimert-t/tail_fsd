@@ -1,8 +1,8 @@
 # TAIL_FSD 
 
-The 'tail_fsd' package is a Python package that calculates the atomic tail for beta decay of TS (where S is T, H or D) within sudden approximation using the result in Fukugita+Kubodera, Z.Phys.9,365(1981) adapted to the molecular case by considering the different ionization energies and a prefactor of 2.0 (for the two electrons). 'tail_fsd.py' code initiates the execution script "exe.py" which then runs the neccesary Python modules inside 'taillib'.
+The 'tail_fsd' package is a Python package that calculates the atomic tail for beta decay of TS (where S is T, H or D) within sudden approximation using the result in Fukugita+Kubodera, Z.Phys.9,365(1981) adapted to the molecular case by considering the different ionization energies and a prefactor of 2.0 (for the two electrons). 'tail_fsd.py' code initiates the execution script "exe.py" which runs the necessary Python modules inside 'taillib'.
 
-'tail_fsd' package also provides a calculation code that calculates the overlaps for final state distribution calculations, using the code 'tail_overlap.py'. This takes potential energy curves of mother and daughter molecule, and calculates the overlaps using the 'taillib' modules.
+'tail_fsd' package also provides a calculation code that calculates the overlaps for final state distribution calculations, using the code 'tail_overlap.py'. This takes potential energy curves of mother and daughter molecules and calculates the overlaps using the 'taillib' modules.
 
 ## tail_fsd
 
@@ -10,12 +10,12 @@ The code takes four arguments:
 
 1. Parent molecule (T2, HT or DT)
 2. Starting point of the atomic tail (eV):
-    *Important Note*: Please do NOT use this code for starting energies below 100 eV. Below 100 eV, close (and below) to ionization threshold energy, the tail model is NOT a physically sensible model. This model / package only makes sense for calculations with higher starting energy. For energies below 100 eV, please use other programs.
+    *Important Note*: Please do NOT use this code for starting energies below 100 eV. The tail model is NOT a physically sensible model below 100 eV, close (and below) to ionization threshold energy. This model/package only makes sense for calculations with higher starting energy. For energies below 100 eV, please use other programs.
 3. End point of the atomic tail (eV)
 4. Bin widths:
     The package provides a binned FSD, with a given bin width.
 5. Correction:
-    The correction flag is by default False, which means that the program APPLIES the energy shift / nuclear broadening by default. It is reccomended to just skip this flag, and use as is.
+    The correction flag is by default False, which means that the program APPLIES the energy shift / nuclear broadening by default. It is recommended to skip this flag, and use as is.
 
 #### Example usage:
 
@@ -36,9 +36,9 @@ The code takes two arguments:
 
 1. Parent molecule potential energy file
 2. Daughter molecule potential energy file
-3. Flag to indicate R-independent calculation. If set, a single R value is used for all calculations. The default is False, meaning that if this flag is not given, calculation is done as a function of R.
-4. The constant R point to use for R-independent calculations. This flag is only neccesary if the flag above is given.
-5. File name, extension is set to ".snm" by default.
+3. Flag to indicate R-independent calculation. If set, a single R-value is used for all calculations. The default is False, meaning that if this flag is not given, the calculation is done as a function of R.
+4. The constant R point to use for R-independent calculations. This flag is only necessary if the flag above is given.
+5. File name. The file extension is set to ".snm" by default.
 
 #### Example Usage:
 
@@ -48,9 +48,9 @@ $python tail_overlap.py -p t2st001Doss.txt -d HeTpst001Mert.pot -n HeTpst001Mert
 
 ### Output
 
-Output is in the format of other AMO group overlap files (hence the .snm extension). Mainly, in contains two columns:
+Output is in the format of other AMO group overlap files (hence the .snm extension). Mainly, it contains two columns:
 
-1. R value (a.u.)
+1. R-value (a.u.)
 2. Overlaps
 
 ## Requirements
@@ -61,8 +61,8 @@ The following packages are required to run the package:
 - scipy
 
 
-## Disclaimer
+### Notes
 
-The atomic tail calculation code is originally written by A. Saenz. It has been modified by A. M. Turaclar for current needs such as the introduction of fractional recoil momentum and broadening originated from it. 
+The atomic tail calculation code was originally written by A. Saenz. It has been expanded by A. M. Turaclar with the introduction of fractional recoil momentum broadening, relative fractional recoil momentum calculation and overlap calculations. 
 
 The last change/update: 18.12.2023
