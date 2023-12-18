@@ -1,2 +1,0 @@
-Energy [eV]	Prob. Density [eV^-1]	Frac. Rec. Mom. [a_0^(-1)]
-30.0	0.003155973	18.62208

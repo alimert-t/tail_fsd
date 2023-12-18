@@ -17,10 +17,16 @@ def calc(isotopologue, estart, eend, corr, fname, bin_size):
     print("Calculation starts.")
     print("")
 
+    ionization_energies = {"T2":15.486, "DT":15.470, "HT":15.433} # T2: Phs.Rev. A 60(4).3013 (1999)
+                                                                  # HT and DT are actually given as D2 and H2 in the paper.
+                                                                  # They need re-calculation. (?)
+
     ehinev = 27.2113962
     enanf = estart / ehinev
-    ethrsd = enanf
     enend = eend / ehinev
+
+    if isotopologue in ionization_energies:
+        ethrsd = ionization_energies[isotopologue] / ehinev
 
     enstep = 0.5 / ehinev 
 

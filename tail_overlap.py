@@ -15,12 +15,6 @@ Use -h flag for help about using the program.
 
 """
 
-"""
-
-To-do: Need to implement check and doing the spline-interpolation of the potential files
-
-"""
-
 #   START OF CODE
 
 import sys
