@@ -65,4 +65,4 @@ The following packages are required to run the package:
 
 The atomic tail calculation code is originally written by A. Saenz. It has been modified by A. M. Turaclar for current needs such as the introduction of fractional recoil momentum and broadening originated from it. 
 
-The last change/update: 08.12.2023
+The last change/update: 18.12.2023
