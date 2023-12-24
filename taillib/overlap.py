@@ -2,37 +2,23 @@ import sys
 import math 
 import tail
 
-def overlap(e_start, e_end, e_step):
+def overlap(e_start, e_end):
 
-    a = e_start
-    c = e_end
-    istep = e_step
+    istep = 1
 
     ehinev = 27.2113962
+    enanf = e_start / ehinev
+    enend = e_end / ehinev
 
-    ethrsd = 0
-    b = a 
-    enanf = b / ehinev
-    enend = c / ehinev
-    enstep = (enend - enanf) / istep
-
-    enueb = enanf - enstep
+    enueb = enanf
     istep += 1
 
     for i in range(1, int(istep)):
-        eprime = enueb - ethrsd
-        if eprime == 0:
+        eprime = enueb
+        if eprime <= 0:
             eprime = 1.0e-12
-        elif eprime < 0:
-            eprime = 0.1e-12
 
-        enueb += enstep 
-        enres = enueb * ehinev
-
-        probability = tail.tail(eprime, ethrsd, enueb, enstep)
-            
-        if eprime == 0.1e-12:
-            probability += 0.000277
-            
+        probability = tail.tail(eprime, 0, enueb, 1)
+        
         overlap = math.sqrt(probability)
         return(overlap)
