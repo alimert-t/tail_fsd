@@ -67,7 +67,7 @@ def main():
     parser.add_argument("-s", "--energy-start", type=float, required=True, help="Start energy of atomic tail. Note: Even though starting energy of the tail can be chosen freely, energies below 100 eV should not be calculated with the tail model. Since the conventional methods of FSD calculation is physically the sensible way to do so below 100 eV.")
     parser.add_argument("-n", "--energy-end", type=float, required=True, help="End energy of atomic tail")
     parser.add_argument("-c", "--correction", action='store_true', help="Skip the application of effective fractional recoil momentum shift. If -c flag is given, correction will NOT be applied!")
-    parser.add_argument("-b", "--bin-edges", type=float, required=True, help="Bin edges to bin the final state distribution.")
+    #parser.add_argument("-b", "--bin-edges", type=float, required=True, help="Bin edges to bin the final state distribution.")
     args = parser.parse_args()
 
     print(f"Isotopologue : {args.isotopologue}")    
@@ -108,7 +108,7 @@ def main():
 
     # Sending the arguments to calculation script
     should_apply_correction = not args.correction
-    calc(args.isotopologue, args.energy_start, args.energy_end, should_apply_correction, file_name, args.bin_edges) #args.energy_step, should_apply_correction, file_name)
+    calc(args.isotopologue, args.energy_start, args.energy_end, should_apply_correction, file_name) #args.energy_step, should_apply_correction, file_name)
     
 if __name__ == "__main__":
     main()
