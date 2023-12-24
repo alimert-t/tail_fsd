@@ -76,7 +76,7 @@ def main():
     
     start_energy = args.energy_start
     end_energy = args.energy_end
-    
+    bin_size = args.bin_edges
 
     if (start_energy < 20):
         print("")
@@ -104,7 +104,7 @@ def main():
         
 
     # Generating the file name
-    file_name = f"tail_fsd-{start_energy}_{end_energy}"
+    file_name = f"tail_fsd-s{int(start_energy)}_n{int(end_energy)}_b{int(bin_size)}"
 
     # Sending the arguments to calculation script
     should_apply_correction = not args.correction

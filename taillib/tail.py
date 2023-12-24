@@ -16,7 +16,9 @@ def tail(eprime, ethrsd, enueb, enstep):
     tpryd = (num/denum) ** 2
     tptail = 2 * tpryd
 
-    result = tptail * 2
-    prob = result / ehinev
+    # Division by ehinev for the result to be Hartree units
+    # Result is tptail * 2 to account for the 2 electron case of TS beta decay
+    result = (tptail * 2) / ehinev
+    prob = result 
 
     return prob
