@@ -61,27 +61,29 @@ if len(daughter_data_raw) != len(parent_data_raw):
     if len(daughter_data_raw) < len(parent_data_raw):
         ref_data = daughter_data_raw
         target_data = parent_data_raw
-        file_to_save = 'daughter_interpolated.pot'
+        file_to_save = 'parent_interpolated.pot'
     else:
         ref_data = parent_data_raw
         target_data = daughter_data_raw
-        file_to_save = 'parent_interpolated.pot'
+        file_to_save = 'daughter_interpolated.pot'
 
-    interpolated_data, truncated_data = interpolate.spline(daughter_data_raw, parent_data_raw)
+#   interpolated_data, truncated_data = interpolate.spline(daughter_data_raw, parent_data_raw)
+    interpolated_data, truncated_data = interpolate.spline(target_data, ref_data)
+
     np.savetxt('out/' + file_to_save, interpolated_data, fmt='%f', delimiter='\t')
 
     if len(daughter_data_raw) < len(parent_data_raw):
-        daughter_data = interpolated_data
-        parent_data = truncated_data
+        parent_data = interpolated_data
+        daughter_data = truncated_data
         print("")
-        print("     Daughter potential curve has been interpolated with respect to parent potential curve.")
+        print("     Parent potential curve has been interpolated with respect to parent potential curve.")
         print(f"     Interpolated daughter data has been saved to /out/{file_to_save}. \n")
     else:
-        parent_data = interpolated_data
-        print("")
-        print("     Parent potential curve has been interpolated with respect to daughter potential curve.")
-        print(f"     Interpolated parent data has been saved to /out/{file_to_save}. \n")
         daughter_data = interpolated_data
+        print("")
+        print("     Daughter potential curve has been interpolated with respect to daughter potential curve.")
+        print(f"     Interpolated parent data has been saved to /out/{file_to_save}. \n")
+        parent_data = truncated_data
 
 else:
     daughter_data = daughter_data_raw
@@ -102,16 +104,15 @@ if args.r_independent:
 # Convert from Hartree to eV
 hartree_to_ev = 27.211386
 pot_diff_ev = pot_diff * hartree_to_ev
-
+print(f"pot_diff_ev = {pot_diff_ev}")
 # Calculate overlap matrix elements using the tail module
 overlap_matrix_elements = []
 
-for e in pot_diff_ev:
-    e_start = e 
-    e_end = e   
-    e_step = 1  
-    no_shift = 0
-    overlap_ME = overlap.overlap(e_start, e_end, e_step)
+for overlap_energy in pot_diff_ev:
+    e_start =  overlap_energy
+    e_end = overlap_energy  
+    overlap_ME = overlap.overlap(e_start, e_end)
+    print(overlap_ME)
     overlap_matrix_elements.append(overlap_ME)
 
 num_points = len(overlap_matrix_elements)
