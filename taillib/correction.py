@@ -5,12 +5,9 @@ import pandas as pd
 from scipy.interpolate import interp1d
 from taillib.ktilde import ktilde
 
-def recoilBroad(isotopologue):
+def recoilBroad(isotopologue, dfResult, header):
 
     path = "input/correction/"
-    
-    dfT = pd.read_csv("transition" + '.txt', sep='\\s+', header=None)
-    dfT.columns = ["e", "p", "k2"]
     
     if isotopologue == "T2":
         dfC = pd.read_csv(path+"hetp_shift_interpolated.dat", sep='\t', header=None)
@@ -28,12 +25,12 @@ def recoilBroad(isotopologue):
 
     interpFunc = interp1d(ktildeCorr, energyShift)
 
-    ktildeTail = dfT["k2"]  
+    ktildeTail = dfResult["k"]  
     tailCorrection = interpFunc(ktildeTail)
 
-    tailCorrected = dfT["e"] + tailCorrection
+    tailCorrected = dfResult["e"] + tailCorrection
 
-    dfN = pd.DataFrame(np.column_stack([tailCorrected, dfT["p"], dfT["k2"]]), columns=["Energy", "Probability Density", "Ktilde"])
+    dfN = pd.DataFrame(np.column_stack([tailCorrected, dfResult["p"], dfResult["k"]]), columns=header)
     return dfN
 
 def shift_start_energy(estart, isotopologue):
