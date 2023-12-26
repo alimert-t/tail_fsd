@@ -50,7 +50,7 @@ if os.path.exists(file_path):
     response = input(f"     The file {file_name} already exists. Do you want to overwrite it? (yes/no): ")
     
     if response.lower() not in ['yes', 'y']:
-        print("     Operation cancelled. The existing file will not be overwritten.")
+        print("     Calculation cancelled. The existing file will not be overwritten.")
         print("     quitting...")
         sys.exit()
 
@@ -104,7 +104,6 @@ if args.r_independent:
 # Convert from Hartree to eV
 hartree_to_ev = 27.211386
 pot_diff_ev = pot_diff * hartree_to_ev
-print(f"pot_diff_ev = {pot_diff_ev}")
 # Calculate overlap matrix elements using the tail module
 overlap_matrix_elements = []
 
@@ -112,7 +111,6 @@ for overlap_energy in pot_diff_ev:
     e_start =  overlap_energy
     e_end = overlap_energy  
     overlap_ME = overlap.overlap(e_start, e_end)
-    print(overlap_ME)
     overlap_matrix_elements.append(overlap_ME)
 
 num_points = len(overlap_matrix_elements)
