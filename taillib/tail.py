@@ -1,10 +1,10 @@
 import sys
 import math
 import numpy as np
+from taillib.constants import ehinev
 
 def tail(eprime, ethrsd, enueb, enstep):
 
-    ehinev = 27.2113962
     pi = np.pi
 
     rydueb = 2 * eprime
