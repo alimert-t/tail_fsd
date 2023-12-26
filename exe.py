@@ -10,6 +10,7 @@ from taillib.tail import tail
 from taillib.correction import recoilBroad
 from taillib.correction import shift_start_energy
 from taillib.bin import bin_distribution
+from taillib.constants import ehinev
 
 def calc(isotopologue, estart, eend, corr, fname):
         
@@ -20,7 +21,6 @@ def calc(isotopologue, estart, eend, corr, fname):
                                                                   # HT and DT are actually given as D2 and H2 in the paper.
                                                                   # They need re-calculation. (?)
 
-    ehinev = 27.2113962
     enanf = estart / ehinev
     enend = eend / ehinev
 
