@@ -17,12 +17,14 @@
 
     Arguments to be given:
     ----------------------
-
-           1st Argument: Starting point of atomic tail, in eV. (i.e 240)
-           2nd Argument: End point of atomic tail, in eV. (i.e 1500) 	  
-           3rd Argument: Number of energy steps. (i.e 500 steps of energy in between start - end)
-           4th Argument: 1 or 0. Application of fractional recoil momentum shift. (1 -> Shift
-                         is applied, 0 -> Shift is not applied.) Generally, 1 should be selected. 
+            
+           1st Argument: Isotopologue (T2, HT or DT)
+           2nd Argument: Starting point of atomic tail, in eV. (i.e 240)
+           3rd Argument: End point of atomic tail, in eV. (i.e 1500) 	  
+           4th Argument: Number of energy steps. (i.e 500 steps of energy in between start - end)
+           5th Argument: Application of energy broadening due to fractional recoil momentum.
+                         Default: True. If this argument is passed as "-c" broadening will NOT be
+                         applied. It is reccomended to skip this argument.
 
     ======================================================================
 
@@ -66,19 +68,17 @@ def main():
     parser.add_argument("-i", "--isotopologue", required=True, choices=['T2', 'DT', 'HT'], help="Isotopologue that is to be calculated: T2, DT or HT")
     parser.add_argument("-s", "--energy-start", type=float, required=True, help="Start energy of atomic tail. Note: Even though starting energy of the tail can be chosen freely, energies below 100 eV should not be calculated with the tail model. Since the conventional methods of FSD calculation is physically the sensible way to do so below 100 eV.")
     parser.add_argument("-n", "--energy-end", type=float, required=True, help="End energy of atomic tail")
+    parser.add_argument("-e", "--energy-step", type=int, required=True, help="Number of energy steps to be calculated")
     parser.add_argument("-c", "--correction", action='store_true', help="Skip the application of effective fractional recoil momentum shift. If -c flag is given, correction will NOT be applied!")
     #parser.add_argument("-b", "--bin-edges", type=float, required=True, help="Bin edges to bin the final state distribution.")
     args = parser.parse_args()
 
     print(f"Isotopologue : {args.isotopologue}")    
     print(f"Start Energy =  {args.energy_start} eV")
-    print(f"End Energy = {args.energy_end} eV \n")
-    
-    start_energy = args.energy_start
-    end_energy = args.energy_end
-    #bin_size = args.bin_edges
+    print(f"End Energy = {args.energy_end} eV")
+    print(f"Number of Steps = {args.energy_step} \n")
 
-    if (start_energy < 20):
+    if (args.energy_start < 20):
         print("")
         print("         *** ATTENTION: For energies below 100 eV, the tail model is NOT a suitable way to calculate final state distribution.")
         print("                        tail model should be used for the continuum, energies (at least) above 100 eV.")
@@ -88,7 +88,7 @@ def main():
         quit()
 
 
-    if (start_energy < 100):
+    if (args.energy_start < 100):
         print("")
         print("         *** ATTENTION: For energies below 100 eV, the tail model is NOT a suitable way to calculate final state distribution.")
         print("                        tail model should be used for the continuum, energies (at least) above 100 eV.")
@@ -104,11 +104,11 @@ def main():
         
 
     # Generating the file name
-    file_name = f"tail_fsd-s{int(start_energy)}_n{int(end_energy)}"
+    file_name = f"{args.isotopologue}_s{int(args.energy_start)}_n{int(args.energy_end)}-tail"
 
     # Sending the arguments to calculation script
     should_apply_correction = not args.correction
-    calc(args.isotopologue, args.energy_start, args.energy_end, should_apply_correction, file_name) #args.energy_step, should_apply_correction, file_name)
+    calc(args.isotopologue, args.energy_start, args.energy_end, args.energy_step, should_apply_correction, file_name) #args.energy_step, should_apply_correction, file_name)
     
 if __name__ == "__main__":
     main()
