@@ -25,6 +25,7 @@ sys.path.append('./taillib')
 from exe import calc
 from taillib import overlap
 from taillib import interpolate
+from taillib.constants import ehinev
 
 # Taking and parsing arguments
 parser = argparse.ArgumentParser(
@@ -41,8 +42,18 @@ args = parser.parse_args()
 file_name = args.file_name + ".snm"
 file_path = 'out/' + file_name
 
-print("")
-print(" *** tail_fsd ***    \n")
+print(' ')
+print(' ')
+print('           *****************************')
+print('           ***                       ***')
+print('           ***                       ***')
+print('           ***      TAIL_OVERLAP     ***')
+print('           ***                       ***')
+print('           ***                       ***')
+print('           *****************************')
+print(' ')
+print(' ')
+
 
 # Check if the file exists, if it does, ask what to do.
 if os.path.exists(file_path):
@@ -102,8 +113,7 @@ if args.r_independent:
         pot_diff = np.full(pot_diff.shape, uniform_pot_diff)
 
 # Convert from Hartree to eV
-hartree_to_ev = 27.211386
-pot_diff_ev = pot_diff * hartree_to_ev
+pot_diff_ev = pot_diff * ehinev
 # Calculate overlap matrix elements using the tail module
 overlap_matrix_elements = []
 
@@ -141,9 +151,9 @@ with open('out/' + file_name, 'w') as f:
 
 if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
     print(" ")
-    print("     Tail overlaps calculated successfully! Overlaps have been saved to file: \n")
+    print("     Tail overlaps have been calculated successfully! Overlaps have been saved to the file: \n")
     print(f"                {file_name} \n")
-    print("     tail_overlap exiting gracefully. \n")
+    print("tail_overlap exiting gracefully. \n")
 else:
     print(f"    ***Error: Tail overlap {file_name} was not created or is empty. Please check for issues. \n")
 
