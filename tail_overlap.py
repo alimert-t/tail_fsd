@@ -20,7 +20,7 @@ Use -h flag for help about using the program.
 import sys
 import os
 import argparse
-import numpy as np
+import pandas as pd
 sys.path.append('./taillib')
 from exe import calc
 from taillib import overlap
@@ -65,62 +65,47 @@ if os.path.exists(file_path):
         print("     quitting...")
         sys.exit()
 
-daughter_data_raw = np.genfromtxt('input/' + args.daughter_potential_file)
-parent_data_raw = np.genfromtxt('input/' + args.parent_potential_file)
+daughter_data_raw = pd.read_csv('input/' + args.daughter_potential_file, header=None, delim_whitespace=True)
+parent_data_raw = pd.read_csv('input/' + args.parent_potential_file, header=None, delim_whitespace=True)
 
 if len(daughter_data_raw) != len(parent_data_raw):
     if len(daughter_data_raw) < len(parent_data_raw):
-        ref_data = daughter_data_raw
-        target_data = parent_data_raw
-        file_to_save = 'parent_interpolated.pot'
+        ref_data = daughter_data_raw.to_numpy()
+        target_data = parent_data_raw.to_numpy()
     else:
-        ref_data = parent_data_raw
-        target_data = daughter_data_raw
-        file_to_save = 'daughter_interpolated.pot'
+        ref_data = parent_data_raw.to_numpy()
+        target_data = daughter_data_raw.to_numpy()
 
-#   interpolated_data, truncated_data = interpolate.spline(daughter_data_raw, parent_data_raw)
     interpolated_data, truncated_data = interpolate.spline(target_data, ref_data)
 
-    np.savetxt('out/' + file_to_save, interpolated_data, fmt='%f', delimiter='\t')
-
     if len(daughter_data_raw) < len(parent_data_raw):
-        parent_data = interpolated_data
-        daughter_data = truncated_data
-        print("")
-        print("     Parent potential curve has been interpolated with respect to parent potential curve.")
-        print(f"     Interpolated daughter data has been saved to /out/{file_to_save}. \n")
+        parent_data = pd.DataFrame(interpolated_data)
+        daughter_data = pd.DataFrame(truncated_data)
     else:
-        daughter_data = interpolated_data
-        print("")
-        print("     Daughter potential curve has been interpolated with respect to daughter potential curve.")
-        print(f"     Interpolated parent data has been saved to /out/{file_to_save}. \n")
-        parent_data = truncated_data
-
+        daughter_data = pd.DataFrame(interpolated_data)
+        parent_data = pd.DataFrame(truncated_data)
 else:
     daughter_data = daughter_data_raw
     parent_data = parent_data_raw
 
 # Calculate the absolute potential differences for both cases of R dependence
-pot_diff = np.abs(daughter_data[:, 1] - parent_data[:, 1])
+pot_diff = (daughter_data[1] - parent_data[1]).abs()
 
 # Calculate the absolute potential differences, if R is specified
 if args.r_independent:
     if args.r_value is None:
         parser.error("--r-independent requires --r-value!")
     else:
-        idx = (np.abs(daughter_data[:,0] - args.r_value)).argmin()
+        idx = (daughter_data[0] - args.r_value).abs().idxmin()
         uniform_pot_diff = pot_diff[idx]
-        pot_diff = np.full(pot_diff.shape, uniform_pot_diff)
+        pot_diff = pd.Series([uniform_pot_diff] * len(pot_diff))
 
-# Convert from Hartree to eV
+# Convert from Hartree to eV and calculate overlap matrix elements
 pot_diff_ev = pot_diff * ehinev
-# Calculate overlap matrix elements using the tail module
 overlap_matrix_elements = []
 
 for overlap_energy in pot_diff_ev:
-    e_start =  overlap_energy
-    e_end = overlap_energy  
-    overlap_ME = overlap.overlap(e_start, e_end)
+    overlap_ME = overlap.overlap(overlap_energy, overlap_energy)
     overlap_matrix_elements.append(overlap_ME)
 
 num_points = len(overlap_matrix_elements)
@@ -137,17 +122,22 @@ header = """
 *
        Number of points:     {num_points}
 *
-*      R (a.u.)      Coupling (a.u.)
+*      R [a.u.]      Coupling [a.u.]
 *      --------     -----------------
 *
 """
 
-save_data = np.column_stack((daughter_data[:, 0], overlap_matrix_elements))
+save_data = pd.DataFrame({'R [a.u.]': daughter_data[0], 'Coupling [a.u.]': overlap_matrix_elements})
 
-# Save the overlap matrix elements to a file
+print("\n")
+print(save_data.to_string(index=False)) # Print the result to the console
+
+# Save the overlaps to a file, it is a 3 line code instead of a single line
+# because of the header format. df.to_csv doesn't accept this type of header
+# thus, using with open.
 with open('out/' + file_name, 'w') as f:
     f.write(header.format(num_points=num_points))
-    np.savetxt(f, save_data, fmt='%f', delimiter='\t')
+    save_data.to_csv(f, sep='\t', index=False, header=False, float_format='%f')
 
 if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
     print(" ")
