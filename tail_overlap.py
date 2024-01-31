@@ -1,20 +1,17 @@
-"""
-
-*** TAIL_OVERLAP.py ***
-
-Author: A. Mert Turaclar
-Date: 27.10.2023
-Latest Update: 27.10.2023
-Changes: -
-
-This code calculates the overlap between two moleculues using their potential energy curves.
-The calculation is done by atomic tail model (M. Fukugita, Zeitschrift für Physik C 9(4):365
-–367, 1981). 
-
-Use -h flag for help about using the program.
-
-"""
-
+# *** TAIL_OVERLAP.py ***
+#
+# Author: A. Mert Turaclar
+# Date: 27.10.2023
+# Latest Update: 27.10.2023
+# Changes: -
+#
+# This code calculates the overlap between two moleculues using their potential energy curves.
+# The calculation is done by atomic tail model (M. Fukugita, Zeitschrift für Physik C 9(4):365
+# –367, 1981). 
+#
+# Use -h flag for help about using the program.
+#
+#
 #   START OF CODE
 
 import sys
