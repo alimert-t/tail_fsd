@@ -1,40 +1,38 @@
-"""
-     TAIL_FSD.py
-    ======================================================================
-
-    Calculate the atomic tail for beta decay within sudden 
-    approximation using the result in Fukugita+Kubodera, 
-    Z.Phys.9,365(1981) adapted to the molecular case by considering 
-    the different ionisation energies and prefactor 2.0 (for the 
-    two electrons).
-
-    This shell script calls the main script "exe.py" which executes the calculations with
-    python modules "tail.py & correction.py" and "ktilde.py" which calculates
-    the atomic tail and fractional recoil momentums (ktilde) at the atomic tail.
-     
-    This code is originally (tail.f) written by A. Saenz, now modified  
-    for current needs by Ali Mert Turaclar.
-
-    Arguments to be given:
-    ----------------------
-            
-           1st Argument: Isotopologue (T2, HT or DT)
-           2nd Argument: Starting point of atomic tail, in eV. (i.e 240)
-           3rd Argument: End point of atomic tail, in eV. (i.e 1500) 	  
-           4th Argument: Number of energy steps. (i.e 500 steps of energy in between start - end)
-           5th Argument: Application of energy broadening due to fractional recoil momentum.
-                         Default: True. If this argument is passed as "-c" broadening will NOT be
-                         applied. It is reccomended to skip this argument.
-
-    ======================================================================
-
-    Date: 10.02.2023
-    Author: A. Mert Turaclar
-    Last Change / Update: 24.11.2023
-
-    ======================================================================
-"""
-#    START OF CODE
+    #  TAIL_FSD.py
+    # ======================================================================
+    #
+    # Calculate the atomic tail for beta decay within sudden 
+    # approximation using the result in Fukugita+Kubodera, 
+    # Z.Phys.9,365(1981) adapted to the molecular case by considering 
+    # the different ionisation energies and prefactor 2.0 (for the 
+    # two electrons).
+    #
+    # This shell script calls the main script "exe.py" which executes the calculations with
+    # python modules "tail.py & correction.py" and "ktilde.py" which calculates
+    # the atomic tail and fractional recoil momentums (ktilde) at the atomic tail.
+    #  
+    # This code is originally (tail.f) written by A. Saenz, now modified  
+    # for current needs by Ali Mert Turaclar.
+    #
+    # Arguments to be given:
+    # ----------------------
+    #         
+    #        1st Argument: Isotopologue (T2, HT or DT)
+    #        2nd Argument: Starting point of atomic tail, in eV. (i.e 240)
+    #        3rd Argument: End point of atomic tail, in eV. (i.e 1500) 	  
+    #        4th Argument: Number of energy steps. (i.e 500 steps of energy in between start - end)
+    #        5th Argument: Application of energy broadening due to fractional recoil momentum.
+    #                      Default: True. If this argument is passed as "-c" broadening will NOT be
+    #                      applied. It is reccomended to skip this argument.
+    #
+    # ======================================================================
+    #
+    # Date: 10.02.2023
+    # Author: A. Mert Turaclar
+    # Last Change / Update: 24.11.2023
+    #
+    # ======================================================================
+    #    START OF CODE
 
 import sys
 import math
