@@ -1,8 +1,8 @@
 # TAIL_FSD 
 
-The 'tail_fsd' package is a Python package that calculates the atomic tail for beta decay of TS (where S is T, H or D) within sudden approximation using the result in Fukugita+Kubodera, Z.Phys.9,365(1981) adapted to the molecular case by considering the different ionization energies and a prefactor of 2.0 (for the two electrons). 'tail_fsd.py' code initiates the execution script "exe.py" which runs the necessary Python modules inside 'taillib'.
+The 'tail_fsd' is a CLI program written with Python that calculates the atomic tail for beta decay of TS (where S is T, H or D) within sudden approximation using the result in Fukugita+Kubodera, Z.Phys.9,365(1981) adapted to the molecular case by considering the different ionization energies and a prefactor of 2.0 (for the two electrons). 'tail_fsd.py' code initiates the execution script "exe.py" which runs the necessary Python modules inside 'taillib'.
 
-'tail_fsd' package also provides a calculation code that calculates the overlaps for final state distribution calculations, using the code 'tail_overlap.py'. This takes potential energy curves of mother and daughter molecules and calculates the overlaps using the 'taillib' modules.
+'tail_fsd' also provides a calculation code that calculates the overlaps for final state distribution calculations, using the code 'tail_overlap.py'. This takes potential energy curves of mother and daughter molecules and calculates the overlaps using the 'taillib' modules.
 
 ## tail_fsd
 
