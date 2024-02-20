@@ -68,6 +68,10 @@ def calculate_pot_diff(daughter_data, parent_data, r_independent, r_value):
     pot_diff_ev = pot_diff * ehinev
     return pot_diff_ev
 
+def calculate_overlaps(pot_diff_ev):
+    overlap_matrix_elements = [overlap.overlap(energy, energy) for energy in pot_diff_ev]
+    return overlap_matrix_elements
+
 # Taking and parsing arguments
 parser = argparse.ArgumentParser(
     description='Calculates the tail overlaps for FSD calculations.',
@@ -105,12 +109,6 @@ if os.path.exists(file_path):
         print("     Calculation cancelled. The existing file will not be overwritten.")
         print("     quitting...")
         sys.exit()
-
-overlap_matrix_elements = []
-
-for overlap_energy in pot_diff_ev:
-    overlap_ME = overlap.overlap(overlap_energy, overlap_energy)
-    overlap_matrix_elements.append(overlap_ME)
 
 num_points = len(overlap_matrix_elements)
 
