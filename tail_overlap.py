@@ -17,10 +17,10 @@
 #
 # Use -h flag for help about using the program.
 #
-# ======================================================================
+# ==============================================================================================
 # Author: A. Mert Turaclar
 # To-Do: -
-# ======================================================================
+# ==============================================================================================
 #   START OF CODE
 
 import sys
@@ -118,10 +118,10 @@ def main():
     parser = argparse.ArgumentParser(
         description='Calculates the tail overlaps for FSD calculations.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-p', '--parent-potential-file', type=str, required=True, help='File with parent molecule poential')
-    parser.add_argument('-d', '--daughter-potential-file', type=str, required=True, help='File with daughter molecule potential')
+    parser.add_argument('-p', '--parent-potential-file', type=str, required=True, help='Parent molecule potential energy file.')
+    parser.add_argument('-d', '--daughter-potential-file', type=str, required=True, help='Daughter molecule potential energy file.')
     parser.add_argument('-r', '--r-independent', action='store_true', help='Flag to indicate R-independent calculation. If set, a single R value is used for all calculations.')
-    parser.add_argument('-v', '--r-value', type=float, help='The R value to use for R-independent calculations. Required if --r-independent is set.')
+    parser.add_argument('-v', '--r-value', type=float, help='The R value to use for the R-independent calculations. Required if --r-independent is set.')
     parser.add_argument('-n', '--file-name', type=str, help='Name of the calculated overlap file, recomended fashion: <DaughterMolecule>+<ElectronicState><T00X>, i.e., HeTppst001T001. Do NOT include file extension.')
 
     args = parser.parse_args()
@@ -132,7 +132,7 @@ def main():
     # Check if the file exists, if it does, ask what to do.
     if os.path.exists(file_path):
         # Prompt the user to confirm overwriting
-        response = input(f"     The file {file_name} already exists. Do you want to overwrite it? (yes/no): ")
+        response = input(f"     The file {file_name} already exists. Do you want to overwrite it? (yes/no): \n")
     
         if response.lower() not in ['yes', 'y']:
             print("     Calculation cancelled. The existing file will not be overwritten.")
@@ -144,7 +144,7 @@ def main():
     save_data, header, num_points = save_results(file_path, daughter_data, overlap_matrix_elements)
 
     if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-        print(f"     Tail overlaps have been calculated successfully and saved to {file_name}")
+        print(f"     Tail overlap calculation started")
     else:
         print(f"    *** Error: Tail overlap file {file_name} was not created or is empty. Please check for issues.")
 
