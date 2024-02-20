@@ -50,6 +50,24 @@ def process_potentials(parent_file, daughter_file, r_independent, r_value):
 
     return daughter_data, parent_data, calculate_pot_diff(daughter_data, parent_data, r_independent, r_value)
 
+def calculate_pot_diff(daughter_data, parent_data, r_independent, r_value):
+    # Calculate the absolute potential differences for both cases of R dependence
+    pot_diff = (daughter_data[1] - parent_data[1]).abs()
+
+    # Calculate the absolute potential differences, if R is specified
+    if r_independent:
+        if r_value is None:
+            print("Error: --r-independent requires --r-value!")
+            sys.exit()
+        else:
+            idx = (daughter_data[0] - args.r_value).abs().idxmin()
+            uniform_pot_diff = pot_diff[idx]
+            pot_diff = pd.Series([uniform_pot_diff] * len(pot_diff))
+
+    # Convert from Hartree to eV and calculate overlap matrix elements
+    pot_diff_ev = pot_diff * ehinev
+    return pot_diff_ev
+
 # Taking and parsing arguments
 parser = argparse.ArgumentParser(
     description='Calculates the tail overlaps for FSD calculations.',
@@ -87,20 +105,7 @@ if os.path.exists(file_path):
         print("     Calculation cancelled. The existing file will not be overwritten.")
         print("     quitting...")
         sys.exit()
-# Calculate the absolute potential differences for both cases of R dependence
-pot_diff = (daughter_data[1] - parent_data[1]).abs()
 
-# Calculate the absolute potential differences, if R is specified
-if args.r_independent:
-    if args.r_value is None:
-        parser.error("--r-independent requires --r-value!")
-    else:
-        idx = (daughter_data[0] - args.r_value).abs().idxmin()
-        uniform_pot_diff = pot_diff[idx]
-        pot_diff = pd.Series([uniform_pot_diff] * len(pot_diff))
-
-# Convert from Hartree to eV and calculate overlap matrix elements
-pot_diff_ev = pot_diff * ehinev
 overlap_matrix_elements = []
 
 for overlap_energy in pot_diff_ev:
