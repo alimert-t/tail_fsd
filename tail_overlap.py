@@ -74,7 +74,7 @@ def calculate_overlaps(pot_diff_ev):
 
 def save_results(file_path, daughter_data, overlap_matrix_elements):
     num_points = len(overlap_matrix_elements)
-    header = """
+    header = """*
 *
 *      Electronic coupling matrix elements (mixed overlaps)
 *      S_n (R) calculated from atomic tail formula.
