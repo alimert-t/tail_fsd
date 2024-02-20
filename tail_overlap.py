@@ -24,6 +24,32 @@ from taillib import overlap
 from taillib import interpolate
 from taillib.constants import ehinev
 
+def process_potentials(parent_file, daughter_file, r_independent, r_value):
+    daughter_data_raw = pd.read_csv('input/' + daughter_file, header=None, delim_whitespace=True)
+    parent_data_raw = pd.read_csv('input/' + parent_file, header=None, delim_whitespace=True)
+
+    if len(daughter_data_raw) != len(parent_data_raw):
+        if len(daughter_data_raw) < len(parent_data_raw):
+            ref_data = daughter_data_raw.to_numpy()
+            target_data = parent_data_raw.to_numpy()
+        else:
+            ref_data = parent_data_raw.to_numpy()
+            target_data = daughter_data_raw.to_numpy()
+
+        interpolated_data, truncated_data = interpolate.spline(target_data, ref_data)
+
+        if len(daughter_data_raw) < len(parent_data_raw):
+            parent_data = pd.DataFrame(interpolated_data)
+            daughter_data = pd.DataFrame(truncated_data)
+        else:
+            daughter_data = pd.DataFrame(interpolated_data)
+            parent_data = pd.DataFrame(truncated_data)
+    else:
+        daughter_data = daughter_data_raw
+        parent_data = parent_data_raw
+
+    return daughter_data, parent_data, calculate_pot_diff(daughter_data, parent_data, r_independent, r_value)
+
 # Taking and parsing arguments
 parser = argparse.ArgumentParser(
     description='Calculates the tail overlaps for FSD calculations.',
@@ -61,30 +87,6 @@ if os.path.exists(file_path):
         print("     Calculation cancelled. The existing file will not be overwritten.")
         print("     quitting...")
         sys.exit()
-
-daughter_data_raw = pd.read_csv('input/' + args.daughter_potential_file, header=None, delim_whitespace=True)
-parent_data_raw = pd.read_csv('input/' + args.parent_potential_file, header=None, delim_whitespace=True)
-
-if len(daughter_data_raw) != len(parent_data_raw):
-    if len(daughter_data_raw) < len(parent_data_raw):
-        ref_data = daughter_data_raw.to_numpy()
-        target_data = parent_data_raw.to_numpy()
-    else:
-        ref_data = parent_data_raw.to_numpy()
-        target_data = daughter_data_raw.to_numpy()
-
-    interpolated_data, truncated_data = interpolate.spline(target_data, ref_data)
-
-    if len(daughter_data_raw) < len(parent_data_raw):
-        parent_data = pd.DataFrame(interpolated_data)
-        daughter_data = pd.DataFrame(truncated_data)
-    else:
-        daughter_data = pd.DataFrame(interpolated_data)
-        parent_data = pd.DataFrame(truncated_data)
-else:
-    daughter_data = daughter_data_raw
-    parent_data = parent_data_raw
-
 # Calculate the absolute potential differences for both cases of R dependence
 pot_diff = (daughter_data[1] - parent_data[1]).abs()
 
