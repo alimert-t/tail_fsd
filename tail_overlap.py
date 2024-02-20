@@ -68,8 +68,11 @@ def calculate_pot_diff(daughter_data, parent_data, r_independent, r_value):
         if r_value is None:
             print("Error: --r-independent requires --r-value!")
             sys.exit()
+        # For R-independent calculations, find the index of the data point in daughter_data
+        # closest to the specified r_value. Then, create a uniform Series of potential differences
+        # using the value at that index, making the potential difference constant across all points.
         else:
-            idx = (daughter_data[0] - args.r_value).abs().idxmin()
+            idx = (daughter_data[0] - r_value).abs().idxmin()
             uniform_pot_diff = pot_diff[idx]
             pot_diff = pd.Series([uniform_pot_diff] * len(pot_diff))
 
@@ -122,7 +125,7 @@ def main():
     parser.add_argument('-d', '--daughter-potential-file', type=str, required=True, help='Daughter molecule potential energy file.')
     parser.add_argument('-r', '--r-independent', action='store_true', help='Flag to indicate R-independent calculation. If set, a single R value is used for all calculations.')
     parser.add_argument('-v', '--r-value', type=float, help='The R value to use for the R-independent calculations. Required if --r-independent is set.')
-    parser.add_argument('-n', '--file-name', type=str, help='Name of the calculated overlap file, recomended fashion: <DaughterMolecule>+<ElectronicState><T00X>, i.e., HeTppst001T001. Do NOT include file extension.')
+    parser.add_argument('-n', '--file-name', type=str, required=True, help='Name of the calculated overlap file, recomended fashion: <DaughterMolecule>+<ElectronicState><T00X>, i.e., HeTppst001T001. Do NOT include file extension.')
 
     args = parser.parse_args()
 
