@@ -1,17 +1,26 @@
-# *** TAIL_OVERLAP.py ***
+# TAIL_OVERLAP.py 
+# ==============================================================================================
+#
+# Calculate the overlap between two moleculues using their potential energy curves.
+# The calculation is done by atomic tail model ( originally by 
+# M. Fukugita, Zeitschrift für Physik C 9(4):365–367, 1981). 
+#
+# This python code needs two input files: parent and daughter potential energies,
+# and three additional arguments: R-dependence, R-value (incase of r-dependence,
+# an R point must be specified so the calculation will be done at a single internuclear distance)
+# and finally output file name.
 #
 # Author: A. Mert Turaclar
 # Date: 27.10.2023
 # Latest Update: 27.10.2023
 # Changes: -
 #
-# This code calculates the overlap between two moleculues using their potential energy curves.
-# The calculation is done by atomic tail model (M. Fukugita, Zeitschrift für Physik C 9(4):365
-# –367, 1981). 
-#
 # Use -h flag for help about using the program.
 #
-#
+# ======================================================================
+# Author: A. Mert Turaclar
+# To-Do: -
+# ======================================================================
 #   START OF CODE
 
 import sys
